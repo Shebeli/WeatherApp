@@ -8,13 +8,13 @@ from django.core.validators import (
 
 
 class CityCord(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     country = models.CharField(max_length=2)
     lat = models.DecimalField("latitude")
     lon = models.DecimalField("longitude")
 
 
-class CityCurrentDayWeatherStats(models.Model):
+class CityWeather(models.Model):
     city = models.OneToOneField(CityCord, on_delete=models.CASCADE)
     temp = models.DecimalField()
     feels_like = models.DecimalField()
@@ -24,7 +24,7 @@ class CityCurrentDayWeatherStats(models.Model):
     humidity = models.DecimalField()
 
 
-class CityCurrentDayConditionStats(models.Model):
+class CityWeatherCondition(models.Model):
     city = models.OneToOneField(CityCord, on_delete=models.CASCADE)
     weather_id = models.IntegerField(
         validators=[MinValueValidator(200), MaxValueValidator(804)]
@@ -36,7 +36,7 @@ class CityCurrentDayConditionStats(models.Model):
     )  # has the following format: 01d, 04d, 50d, etc.
 
 
-class CityCurrentDayWindStats(models.Model):
+class CityWind(models.Model):
     city = models.OneToOneField(CityCord, on_delete=models.CASCADE)
     wind_speed = models.DecimalField(max_digits=3, decimal_places=2)
     wind_deg = models.DecimalField(
