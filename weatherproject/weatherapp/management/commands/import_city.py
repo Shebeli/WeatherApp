@@ -1,6 +1,8 @@
+import json
 from typing import Any
 
 from django.core.management.base import BaseCommand, CommandParser
+from django.db import IntegrityError
 
 from weatherapp.models import CityCord, CityImportStatus
 
@@ -19,17 +21,26 @@ class Command(BaseCommand):
         if CityImportStatus.objects.filter(is_imported=True).exists():
             self.stdout.write(
                 self.style.NOTICE(
-                    "The cities data have already been imported to database! Use update_city command for reimporting."
+                    """
+                    The cities data have already been imported to database! 
+                    Use update_city command for reimporting.
+                    """
                 )
             )
         else:
             file_path = options["path"]  # eg: C:/users/john/cities.json
-            with open(file_path) as cities:
+            with open(file_path, 'r', encoding='utf-8') as cities:
+                cities = json.load(cities)
                 for city in cities:
-                    CityCord.objects.create(
-                        name=city["name"],
-                        country=city["country"],
-                        lat=city["lat"],
-                        lon=city["lng"],
-                    )
+                    # if not CityCord.objects.filter(name=city['name']).exists():
+                        try:
+                            CityCord.objects.create(
+                                name=city["name"],
+                                country=city["country"],
+                                lat=city["lat"],
+                                lon=city["lng"],
+                            )
+                        except IntegrityError as error:
+                            self.stdout.write(self.style.ERROR(f"DUPLICATE ERROR: {error}"))
             CityImportStatus.objects.create(is_imported=True)
+            self.stdout.write(self.style.SUCCESS("All cities have been imported successfuly! CityImportStatus flag has been set!"))

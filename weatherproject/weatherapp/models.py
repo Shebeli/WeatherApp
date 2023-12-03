@@ -8,23 +8,25 @@ from django.core.validators import (
 
 
 class CityCord(models.Model):
-    name = models.CharField(max_length=20, unique=True)
-    country = models.CharField(max_length=2)
-    lat = models.DecimalField("latitude", max_digits=16, decimal_places=15)
-    lon = models.DecimalField("longitude", max_digits=16, decimal_places=15)
+    name = models.CharField(max_length=70, unique=True)
+    country = models.CharField(max_length=5)
+    lat = models.FloatField("latitude")
+    lon = models.FloatField("longitude")
+
 
 class CityImportStatus(models.Model):
     is_imported = models.BooleanField(default=False)
 
+
 class CityWeather(models.Model):
     city = models.OneToOneField(CityCord, on_delete=models.CASCADE)
-    temp = models.DecimalField(max_digits=3, decimal_places=2)
-    feels_like = models.DecimalField(max_digits=3, decimal_places=2)
-    temp_min = models.DecimalField(max_digits=3, decimal_places=2)
-    temp_max = models.DecimalField(max_digits=3, decimal_places=2)
+    temp = models.FloatField()
+    feels_like = models.FloatField()
+    temp_min = models.FloatField()
+    temp_max = models.FloatField()
     pressure = models.IntegerField()
     humidity = models.IntegerField()
-    uv_index = models.DecimalField(max_digits=3, decimal_places=2)
+    uv_index = models.FloatField()
 
 
 class CityWeatherCondition(models.Model):
@@ -41,13 +43,11 @@ class CityWeatherCondition(models.Model):
 
 class CityWind(models.Model):
     city = models.OneToOneField(CityCord, on_delete=models.CASCADE)
-    wind_speed = models.DecimalField(max_digits=3, decimal_places=2)
-    wind_deg = models.DecimalField(max_digits=3,decimal_places=2,
+    wind_speed = models.FloatField()
+    wind_deg = models.FloatField(
         validators=[MinValueValidator(0), MaxValueValidator(360)]
     )
-    clouds = models.DecimalField(
-        max_digits=3,
-        decimal_places=2,
+    clouds = models.FloatField(
         validators=[MinValueValidator(0), MaxValueValidator(100)],
     )
     visibility = models.IntegerField(

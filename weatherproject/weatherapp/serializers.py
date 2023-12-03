@@ -30,14 +30,19 @@ class CitySerializer(serializers.ModelSerializer):
         exclude = ['lat', 'lon']
 
     def get_city_weather(self, obj):
-        city_weather_obj = CityWeather.objects.get(citycord=obj)
-        return CityWeatherSerializer(city_weather_obj).data
+        city_weather_obj = CityWeather.objects.filter(city=obj).first()
+        if city_weather_obj:
+            return CityWeatherSerializer(city_weather_obj.first()).data
+        return CityWeatherSerializer().data
     
     def get_city_weather_condition(self, obj):
-        city_weather_condition_obj = CityWeatherCondition.objects.get(citycord=obj)
-        return CityWeatherConditionSerializer(city_weather_condition_obj).data
+        city_weather_condition_obj = CityWeatherCondition.objects.filter(city=obj).first()
+        if city_weather_condition_obj:
+            return CityWeatherConditionSerializer(city_weather_condition_obj.first()).data
+        return CityWeatherSerializer().data
     
     def get_city_wind(self, obj):
-        city_wind_condition_obj = CityWind.objects.get(citycord=obj)
-        return CityWindSerializer(city_wind_condition_obj).data
-    
+        city_wind_condition_obj = CityWind.objects.filter(city=obj).first()
+        if city_wind_condition_obj:
+            return CityWindSerializer(city_wind_condition_obj).data
+        return CityWindSerializer().data

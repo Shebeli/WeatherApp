@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-_#u40is$qmnf)0(gsyznru)_vrdcx8vfq2o5-f72u3uoe4x2a5
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "192.168.1.108"
+    "192.168.1.108",
+    'localhost',
+    '127.0.0.1'
 ]
 
 
@@ -132,8 +134,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+#     ]
+# }
