@@ -21,11 +21,11 @@ class CityCord(models.Model):
 #     response = requests.get(current_weather_api_url(self.lat, self.lon))
 #     return
 
-def is_data_old(self, time_threshold=timedelta(minutes=30)):
-    if not self.last_updated:
-        return True
-    if datetime.now() - time_threshold > self.last_updated:
-        return True
+    def is_data_old(self, time_threshold=timedelta(minutes=30)):
+        if not self.last_updated:
+            return True
+        if datetime.now() - time_threshold > self.last_updated:
+            return True
 
 class CityImportStatus(models.Model):
     is_imported = models.BooleanField(default=False)

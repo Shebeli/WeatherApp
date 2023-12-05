@@ -20,4 +20,4 @@ def add_query_params(url: str, params: Dict) -> str: # to be used in later funct
 def current_weather_api_url(
     lat: float, lon: float, part=None, units="metric", lang=None
 ) -> str:
-    return f"https://api.openweathermap.org/data/3.0/onecall?lat={lat}&lon={lon}&exclude={part}&appid={settings.OMW_API_KEY}&units={units}"
+    return f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&exclude={part}&appid={settings.OWM_API_KEY}&units={units}"
