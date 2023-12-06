@@ -21,9 +21,9 @@ class CityWindSerializer(serializers.ModelSerializer):
         exclude = ['city']
 
 class CitySerializer(serializers.ModelSerializer):
-    city_weather = CityWeatherSerializer()
-    city_weather_condition = CityWeatherConditionSerializer()
-    city_wind = CityWindSerializer()
+    cityweather = CityWeatherSerializer()
+    cityweathercondition = CityWeatherConditionSerializer()
+    citywind = CityWindSerializer()
 
     class Meta:
         model = CityCord

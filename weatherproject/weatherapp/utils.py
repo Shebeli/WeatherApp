@@ -56,7 +56,7 @@ def _get_or_create_cityweather(city: CityCord, response_data: Dict) -> CityWeath
 def _get_or_create_cityweathercondition(
     city: CityCord, response_data: Dict
 ) -> CityWeatherCondition:
-    weather_condition_data = response_data["weather"]
+    weather_condition_data = response_data["weather"][0]
     city_weather_condition_obj = CityWeatherCondition.objects.filter(city=city).first()
     if not city_weather_condition_obj:
         city_weather_condition_obj = CityWeatherCondition.objects.create(

@@ -18,6 +18,6 @@ def get_current_weather_info(request, format=None):
             return Response(status=status.HTTP_404_NOT_FOUND)
         update_city_weather_data(city)
         serialized_instance = CitySerializer(city)
-        return Response(serialized_instance, status=status.HTTP_200_OK)
+        return Response(serialized_instance.data, status=status.HTTP_200_OK)
 
 
