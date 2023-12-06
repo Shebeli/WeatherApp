@@ -28,7 +28,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "192.168.1.108",
     'localhost',
-    '127.0.0.1'
+    '127.0.0.1',
+    'http://localhost:5173/'
 ]
 
 
@@ -44,7 +45,8 @@ INSTALLED_APPS = [
     # custom apps
     'weatherapp.apps.WeatherappConfig',
     # 3rd party apps
-    'rest_framework'
+    'rest_framework',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
@@ -55,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 3rd party
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'weatherproject.urls'
@@ -133,6 +137,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
 
 # OPEN WEATHER MAP 
 OWM_API_KEY = os.environ.get("OWM_API_KEY")
