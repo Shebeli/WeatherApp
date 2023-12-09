@@ -29,6 +29,12 @@ class CitySerializer(serializers.ModelSerializer):
         model = CityCord
         exclude = ['lat', 'lon']
 
+class CityNameSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = CityCord
+        fields = ['id', 'name']
+
     # def get_city_weather(self, obj):
     #     city_weather_obj = CityWeather.objects.filter(city=obj).first()
     #     if city_weather_obj:

@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'weatherapp.apps.WeatherappConfig',
     # 3rd party apps
     'rest_framework',
-    'corsheaders'
+    'corsheaders',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
@@ -58,7 +59,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 3rd party
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'weatherproject.urls'
@@ -146,6 +148,10 @@ CORS_ALLOWED_ORIGINS = [
 # OPEN WEATHER MAP 
 OWM_API_KEY = os.environ.get("OWM_API_KEY")
 # OWM_CURRENT_WEATHER_BASE_API = "https://api.openweathermap.org/data/3.0/onecall"
+
+INTERNAL_IP = [
+    "127.0.0.1"
+]
 
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': [
