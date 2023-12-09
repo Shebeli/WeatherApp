@@ -8,6 +8,7 @@ from django.core.validators import (
     MinValueValidator,
     MaxValueValidator,
 )
+from django.utils import timezone
 # from weatherproject.utils.owm_api import current_weather_api_url
 
 class CityCord(models.Model):
@@ -24,8 +25,7 @@ class CityCord(models.Model):
     def is_data_old(self, time_threshold=timedelta(minutes=30)):
         if not self.last_updated:
             return True
-        naive_last_updated = self.last_updated.replace(tzinfo=None)
-        return datetime.now() - time_threshold > naive_last_updated
+        return timezone.now() - time_threshold > self.last_updated
             
 
 class CityImportStatus(models.Model):

@@ -8,17 +8,17 @@ from .models import (CityCord,
 class CityWeatherSerializer(serializers.ModelSerializer):
     class Meta:
         model = CityWeather
-        exclude = ['city']
+        exclude = ['city', 'id']
 
 class CityWeatherConditionSerializer(serializers.ModelSerializer):
     class Meta:
         model = CityWeatherCondition
-        exclude = ['city']
+        exclude = ['city', 'id']
 
 class CityWindSerializer(serializers.ModelSerializer):
     class Meta:
         model = CityWind
-        exclude = ['city']
+        exclude = ['city', 'id']
 
 class CitySerializer(serializers.ModelSerializer):
     cityweather = CityWeatherSerializer()
