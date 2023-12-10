@@ -45,12 +45,13 @@ INSTALLED_APPS = [
     # custom apps
     'weatherapp.apps.WeatherappConfig',
     # 3rd party apps
+    'silk',
     'rest_framework',
     'corsheaders',
-    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
+    'silk.middleware.SilkyMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,7 +61,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 3rd party
     'corsheaders.middleware.CorsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'weatherproject.urls'
@@ -133,7 +133,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -150,12 +152,8 @@ OWM_API_KEY = os.environ.get("OWM_API_KEY")
 # OWM_CURRENT_WEATHER_BASE_API = "https://api.openweathermap.org/data/3.0/onecall"
 
 INTERNAL_IP = [
-    "127.0.0.1"
+    "127.0.0.1",
 ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-#     ]
-# }
+SILKY_PYTHON_PROFILER = True
 

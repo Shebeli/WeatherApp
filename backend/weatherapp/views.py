@@ -3,9 +3,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import CityCord
 from .serializers import CitySerializer, CityNameSerializer
- 
+# from silk.profiling.profiler import silk_profile
+
 from weatherapp.utils import update_city_weather_data
 
+# @silk_profile(name="Get current weather info")
 @api_view(["GET"])
 def get_current_weather_info(request, format=None):
     if request.method == "GET":

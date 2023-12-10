@@ -5,11 +5,28 @@ import { onKeyStroke } from '@vueuse/core'
 const cityName = ref('')
 const cityWeatherData = ref('')
 const isLoading = ref(false)
-
+const similarCityNames = ref([])
+let debounceTimer = null
 
 onKeyStroke('Enter', () => {
   fetchCityWeatherData(cityName)
 })
+
+async function delayedCityNamesFetch() {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(async () => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/city-names?city=${cityName.value}`
+      );
+    if (response.status !== 200) {
+      return;
+    }
+  } catch (error) {
+    cityWeatherData.value = error;
+  }
+  }, 1000);
+}
 
 async function fetchCityWeatherData() {
   isLoading.value = true;
@@ -58,7 +75,8 @@ async function fetchCityWeatherData() {
 <template>
   <h2>
     Enter the city name
-    <p><input v-model="cityName" @keyup.enter="fetchCityWeatherData(cityName)">
+    <p>
+    <input v-model="cityName" id="cityInput" @keyup.enter="fetchCityWeatherData(cityName)">
       <button @click="fetchCityWeatherData(cityName)" :disabled="cityWeatherData == null"> Search</button>
     </p>
     <p v-if="isLoading" class="loading-spinner"></p>

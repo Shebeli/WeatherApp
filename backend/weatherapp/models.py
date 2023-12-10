@@ -18,6 +18,10 @@ class CityCord(models.Model):
     lon = models.FloatField("longitude")
     last_updated = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['name']),
+        ]
 # def get_weather_data(self):
 #     response = requests.get(current_weather_api_url(self.lat, self.lon))
 #     return
