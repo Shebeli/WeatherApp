@@ -33,7 +33,7 @@ async function fetchSimilarCityNames() {
     responseData.forEach(cityName => {
       similarCityNames.value.push(cityName['name']);
     });
-  }, 250);
+  }, 400);
 }
 
 async function fetchCityWeatherData() {
@@ -78,7 +78,7 @@ function fetchSelectedCityWeatherData() {
   animation: spin 1s linear infinite;
 }
 .search-container {
-  position: absolute;
+  position: relative;
   background-color: #131535;
   /* color: #102818; */
   border-radius: 12px;
@@ -132,27 +132,27 @@ function fetchSelectedCityWeatherData() {
 
 /* CSS */
 .search-button {
-  align-items: center;
-  background-image: linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);
-  border: 0;
-  border-radius: 8px;
-  box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+  /* align-items: center; */
+  position: absolute;
+  background-image: linear-gradient(144deg,#ae44fa, #6851ff 50%,#0a043c);
+  /* border: 1; */
+  border-radius: 10px;
+  box-shadow: rgba(154, 74, 245, 0.2) 0 15px 30px -5px;
   box-sizing: border-box;
   color: #FFFFFF;
-  display: flex;
-  font-family: Phantomsans, sans-serif;
+  /* display: flex; */
   font-size: 20px;
   justify-content: center;
   line-height: 1em;
-  max-width: 100%;
-  min-width: 140px;
-  padding: 19px 24px;
+  padding: 15px 35px;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
   white-space: nowrap;
   cursor: pointer;
+  right: 5px; 
+  top: 30px;
 }
 
 .search-button:active,
