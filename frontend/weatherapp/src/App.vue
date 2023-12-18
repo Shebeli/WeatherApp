@@ -66,11 +66,19 @@ function fetchSelectedCityWeatherData() {
 </script>
 
 <style>
+/* body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+} */
+
 * {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
 }
 .loading-spinner {
-  border: 3.5px solid rgba(39, 47, 122, 0.1);
+  border: 4.5px solid rgb(85, 143, 4);
   border-left-color: #32a164;
   border-radius: 50%;
   width: 50px;
@@ -79,17 +87,19 @@ function fetchSelectedCityWeatherData() {
 }
 .search-container {
   position: relative;
-  background-color: #131535;
+  background-color: #0f1041;
   /* color: #102818; */
   border-radius: 12px;
-  top: 40px;
-  /* height: 400px; */
-  /* top: 50%; */
-  width: 600px;
-  border-radius: 25px;
-
-  padding: 20px;
-  /* align-items: flex-start; */
+  border: 10px solid #1e065b;
+  /* top: 0%; */
+  /* min-width: 500px; */
+  /* right: 33%; */
+  padding: 26px;
+   /* max-width: 90%; */
+  /* width: 500px;  */
+  margin: 0 auto; 
+  left: 50%;
+  /* align-items: center; */
   /* max-width: 1000px; */
 
 }
@@ -108,66 +118,78 @@ function fetchSelectedCityWeatherData() {
 } */
 .city-list {
   padding-left: 0;
-  margin: px;
+  margin-top: 25px;
 }
 .city-element {
-  font-size: 18px;
+  font-size: 16px;
   list-style-type: none;
-  color: rgb(182, 182, 182);
+  color: rgb(202, 200, 200);
   background-color: #171b57;
-  margin: 6px;
+  margin: 8px;
   padding-left: 7px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+  padding-top: 2px;
+  padding-bottom: 2px;
   border-radius: 10px;
+  font-weight: 500;
 }
 .city-element:hover{
   color: aliceblue;
-  background-color: #202675;
+  background-color: #2f37af;
   cursor: pointer;
+  transition: background-color 0.35s ease;
 }
 .city-search {
   text-align: center;
 }
 
-/* CSS */
 .search-button {
-  /* align-items: center; */
-  position: absolute;
+  align-self: right;
   background-image: linear-gradient(144deg,#ae44fa, #6851ff 50%,#0a043c);
-  /* border: 1; */
   border-radius: 10px;
   box-shadow: rgba(154, 74, 245, 0.2) 0 15px 30px -5px;
-  box-sizing: border-box;
   color: #FFFFFF;
-  /* display: flex; */
   font-size: 20px;
   justify-content: center;
-  line-height: 1em;
-  padding: 15px 35px;
-  text-decoration: none;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  white-space: nowrap;
+  padding: 11px 35px;
   cursor: pointer;
-  right: 5px; 
-  top: 30px;
+  right: 20px; 
+  top: 60px;
+  font-weight: 600;
 }
 
-.search-button:active,
 .search-button:hover {
-  outline: 0;
+  outline:#000000;
+  color: aliceblue;
+  background-color: #2f37af;
+  cursor: pointer;
+  transition: background-color 0.35s ease;
 }
 
-/* .cityNameInput { */
-/* } */
-@media (min-width: 768px) {
-  .search-button {
-    font-size: 24px;
-    min-width: 196px;
-  }
+#cityNameInput {
+  padding: 4px 5px;
+  margin: 10px 10px;
+  /* border: 3.5px solid #33024a; */
+  /* border-radius: 5px; */
+  font-size: 20px;
+  outline: none;
+  border: 2.5px solid #080397;
 }
+
+#cityNameInput:focus {
+  /* border-color: #0b022f9d; */
+  border: 2.5px solid #5f63e8;
+}
+
+#cityNameInput::placeholder {
+  color: #888787;
+  font-weight: 200;
+  background-image: url("./assets/static/search_icon.jpg");
+  /* background-color: azure; */
+  background-size: 27px;
+  background-repeat: no-repeat;
+  background-position: -4px ;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -182,13 +204,16 @@ function fetchSelectedCityWeatherData() {
 
 
 <template>
-  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@500&display=swap" rel="stylesheet">
+<body>
   <div class="search-container">
     <div class="city-search">
       <h2>
         Enter The City Name
       </h2>
-      <input v-model="cityName" id="cityNameInput" @keyup.enter="fetchCityWeatherData(cityName)">
+      <input placeholder="    City Name" v-model="cityName" id="cityNameInput" @keyup.enter="fetchCityWeatherData(cityName)">
       <button class="search-button" @click="fetchCityWeatherData(cityName)" :disabled="cityWeatherData == null"> Search</button>
     </div>
     <div v-if="similarCityNames.length" class="dropdown">
@@ -200,7 +225,7 @@ function fetchSelectedCityWeatherData() {
   <p v-if="isLoading" class="loading-spinner"></p>
   <pre v-else-if="cityWeatherData">{{ cityWeatherData }}</pre>
   <p v-else></p>
-    
+</body>
 
 </template>
 
