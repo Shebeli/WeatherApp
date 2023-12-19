@@ -7,7 +7,14 @@ const cityWeatherData = ref('')
 const isLoading = ref(false)
 const similarCityNames = ref([])
 const selectedCity = ref('')
+const weatherIcon = ref(null)
+
 let debounceTimer = null
+// const cityWeatherConditionIds = {
+//   'Clear' : [800],
+//   'Clouds': [801, 802, 803, 804],
+//   '
+// }
 
 onKeyStroke('Enter', () => {
   fetchCityWeatherData(cityName)
@@ -51,6 +58,22 @@ async function fetchCityWeatherData() {
     cityWeatherData.value = error;
   } finally {
     isLoading.value = false;
+    const weatherCondition = cityWeatherData.value.cityWeatherCondition;
+    switch (weatherCondition) {
+      case 'Thunderstorm':
+        break
+      case 'Drizzle':
+        break
+      case 'Rain':
+        break
+      case 'Snow':
+        break
+      case 'Clear':
+        break
+      case 'Clouds':
+        break
+     
+    }
   }
 }
 
@@ -66,13 +89,6 @@ function fetchSelectedCityWeatherData() {
 </script>
 
 <style>
-/* body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-} */
-
 * {
   font-family: 'Inter', sans-serif;
   font-weight: 300;
@@ -88,34 +104,24 @@ function fetchSelectedCityWeatherData() {
 .search-container {
   position: relative;
   background-color: #0f1041;
-  /* color: #102818; */
   border-radius: 12px;
   border: 10px solid #1e065b;
-  /* top: 0%; */
-  /* min-width: 500px; */
-  /* right: 33%; */
-  padding: 26px;
-   /* max-width: 90%; */
-  /* width: 500px;  */
-  margin: 0 auto; 
-  left: 50%;
-  /* align-items: center; */
-  /* max-width: 1000px; */
-
+  padding: 20px;
+  margin: 10px 10px; 
+  /* left: 50%; */
+  bottom: 10%;
+  
 }
 
-/* .dropdown {
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  background-color: #102818;
-  max-height: 280px;
-  overflow-y: auto;
+.weather-container {
+  position:relative;
+  background-color: #0f1041;
   border-radius: 12px;
-  border-top-right-radius: 0px;
-  border-top-left-radius: 0px;
-  z-index: 1;
-} */
+  border: 10px solid #1e065b;
+  padding: 20px;
+  margin: 10px 10px;
+  top: 75%;
+}
 .city-list {
   padding-left: 0;
   margin-top: 25px;
@@ -148,9 +154,9 @@ function fetchSelectedCityWeatherData() {
   border-radius: 10px;
   box-shadow: rgba(154, 74, 245, 0.2) 0 15px 30px -5px;
   color: #FFFFFF;
-  font-size: 20px;
+  font-size: 18px;
   justify-content: center;
-  padding: 11px 35px;
+  padding: 10px 30px;
   cursor: pointer;
   right: 20px; 
   top: 60px;
@@ -190,6 +196,14 @@ function fetchSelectedCityWeatherData() {
   background-position: -4px ;
 }
 
+#weatherIcon {
+  height: 150px;
+  width: 150px;
+  background-color: none;
+  color: none;
+}
+
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -205,14 +219,10 @@ function fetchSelectedCityWeatherData() {
 
 <template>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@500&display=swap" rel="stylesheet">
-<body>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@500&display=swap" rel="stylesheet">
   <div class="search-container">
-    <div class="city-search">
-      <h2>
-        Enter The City Name
-      </h2>
+    <div class="city-search"> 
       <input placeholder="    City Name" v-model="cityName" id="cityNameInput" @keyup.enter="fetchCityWeatherData(cityName)">
       <button class="search-button" @click="fetchCityWeatherData(cityName)" :disabled="cityWeatherData == null"> Search</button>
     </div>
@@ -222,10 +232,13 @@ function fetchSelectedCityWeatherData() {
       </ul>
     </div>
   </div>
-  <p v-if="isLoading" class="loading-spinner"></p>
-  <pre v-else-if="cityWeatherData">{{ cityWeatherData }}</pre>
+  <div class="weather-container" v-if="cityWeatherData">
+    <img :src='importedSVG' id='weatherIcon'/>
+    <span>{{ cityWeatherData }}</span>
+  </div>
+  <p v-else-if="isLoading" class="loading-spinner"></p>
+
   <p v-else></p>
-</body>
 
 </template>
 
