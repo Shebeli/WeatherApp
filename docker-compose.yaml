@@ -1,0 +1,39 @@
+services:
+  django:
+    build: ./backend/
+    ports:
+      - "8000:8000"
+    environment:
+      OWM_API_KEY: ${OWM_API_KEY}
+      DEBUG: ${DEBUG}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - django_volume:/app
+    
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "8321:8321"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_volume:/var/lib/postgresql/data
+
+  vue:
+    build: ./frontend/
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./frontend/src:/app/src"
+
+volumes:
+  django_volume:
+  postgres_volume:
