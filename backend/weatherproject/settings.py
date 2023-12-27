@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-_#u40is$qmnf)0(gsyznru)_vrdcx8vfq2o5-f72u3uoe4x2a5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["192.168.1.108", "localhost", "127.0.0.1", "http://localhost:5173/"]
+ALLOWED_HOSTS = ["192.168.1.108", "localhost", "127.0.0.1", "http://localhost:5173/", 'http://vue:5173']
 
 
 # Application definition
@@ -138,6 +138,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "http://vue:5173"
 ]
 
 # OPEN WEATHER MAP
