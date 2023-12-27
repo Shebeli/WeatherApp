@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
-import weatherConditionIconIds from '@/utils/weatherIcons.js'
-import IconCloudy from './components/icons/IconCloudy.vue';
+
+import WeatherConditions from './utils/weatherIcons.vue'
 
 const cityName = ref('')
 const cityWeatherData = ref('')
@@ -19,9 +19,8 @@ onKeyStroke('Enter', () => {
 })
 
 function getWeatherIconPath(weatherCode) {
-  const baseFilePath = '/src/assets/static/';
-  const weatherIconFileName = weatherConditionIconIds[weatherCode].iconName;
-  return baseFilePath + weatherIconFileName
+  const weatherIconFileName = WeatherConditions[weatherCode].iconFile;
+  return weatherIconFileName
 }
 
 async function fetchSimilarCityNames() {
@@ -98,7 +97,6 @@ function fetchSelectedCityWeatherData() {
         Search
       </button>
     </div>
-  
     <div v-if="similarCityNames.length" class="dropdown">
       <ul class="city-list">
         <li
@@ -114,10 +112,8 @@ function fetchSelectedCityWeatherData() {
     </div>
   </div>
   <div class="weather-container" v-if="cityWeatherData">
-    <IconCloudy />
+    <weatherIcon/>
     <span>{{ cityWeatherData }}</span>
   </div>
   <p v-else-if="isLoading" class="loading-spinner"></p>
-
-  <p v-else></p>
 </template>
