@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, defineAsyncComponent} from 'vue'
 import { onKeyStroke } from '@vueuse/core'
 
-import WeatherConditions from './utils/weatherIcons.vue'
+import WeatherConditions from './utils/WeatherIcons.vue'
+
 
 const cityName = ref('')
 const cityWeatherData = ref('')
@@ -19,8 +20,8 @@ onKeyStroke('Enter', () => {
 })
 
 function getWeatherIconPath(weatherCode) {
-  const weatherIconFileName = WeatherConditions[weatherCode].iconFile;
-  return weatherIconFileName
+  const weatherIconFile = WeatherConditions[weatherCode].iconFile;
+  return defineAsyncComponent(weatherIconFile)
 }
 
 async function fetchSimilarCityNames() {
@@ -52,11 +53,12 @@ async function fetchCityWeatherData() {
     if (response.status !== 200) {
       return
     }
-  } catch (error) {
+  } catch (error) {z
     cityWeatherData.value = error
   } finally {
     isLoading.value = false
-    weatherIcon.value = getWeatherIconPath(cityWeatherData.value.cityweathercondition.icon)
+    const iconFile = getWeatherIconPath(cityWeatherData.value.cityweathercondition.icon);
+    weatherIcon.value = iconFile;
   }
 }
 
@@ -66,7 +68,7 @@ onMounted(() => {
 })
 
 function fetchSelectedCityWeatherData() {
-  fetchCityWeatherData(selectedCity.value)
+fetchCityWeatherData(selectedCity.value)
 }
 </script>
 
