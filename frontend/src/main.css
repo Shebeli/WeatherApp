@@ -10,6 +10,17 @@
   height: 50px;
   animation: spin 1s linear infinite;
 }
+
+.main{
+  position: absolute;
+  min-width: 400px;
+  /* right: 15%; */
+  left:50%;
+  /* top: 50%; */
+  transform: translate(-50%, 0);
+  max-width: 750px;
+  /* margin: 20px 0; */
+}
 .search-container {
   position: relative;
   background-color: #0f1041;
@@ -19,6 +30,7 @@
   margin: 10px 10px;
   /* left: 50%; */
   bottom: 10%;
+  min-width: 500px;
 }
 
 .weather-container {
@@ -29,6 +41,8 @@
   padding: 20px;
   margin: 10px 10px;
   top: 75%;
+  min-width: 500px;
+  color: white;
 }
 .city-list {
   padding-left: 0;
@@ -77,6 +91,20 @@
   background-color: #2f37af;
   cursor: pointer;
   transition: background-color 0.35s ease;
+}
+
+.weather-container svg {
+  position:absolute;
+  left: 57%;
+  margin: 10px;
+  bottom: 0;
+}
+
+
+.weather-main h1 {
+  font-weight: 600;
+  color: white;
+  margin: 0px 0 ;
 }
 
 #cityNameInput {

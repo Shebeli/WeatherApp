@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted, defineAsyncComponent} from 'vue'
+import { ref, onMounted, defineAsyncComponent } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
 
 import WeatherConditions from './utils/WeatherIcons.vue'
+import WeatherAdditionalData from './components/WeatherAdditionalData.vue';
 
 
 const cityName = ref('')
@@ -14,13 +15,12 @@ const weatherIcon = ref('')
 
 let debounceTimer = null
 
-
 onKeyStroke('Enter', () => {
   fetchCityWeatherData(cityName)
 })
 
 function getWeatherIconPath(weatherCode) {
-  const weatherIconFile = WeatherConditions[weatherCode].iconFile;
+  const weatherIconFile = WeatherConditions[weatherCode].iconFile
   return defineAsyncComponent(weatherIconFile)
 }
 
@@ -53,12 +53,12 @@ async function fetchCityWeatherData() {
     if (response.status !== 200) {
       return
     }
-  } catch (error) {z
+  } catch (error) {
     cityWeatherData.value = error
   } finally {
     isLoading.value = false
-    const iconFile = getWeatherIconPath(cityWeatherData.value.cityweathercondition.icon);
-    weatherIcon.value = iconFile;
+    const iconFile = getWeatherIconPath(cityWeatherData.value.cityweathercondition.icon)
+    weatherIcon.value = iconFile
   }
 }
 
@@ -68,12 +68,12 @@ onMounted(() => {
 })
 
 function fetchSelectedCityWeatherData() {
-fetchCityWeatherData(selectedCity.value)
+  fetchCityWeatherData(selectedCity.value)
 }
 </script>
 
 <style>
-  @import './main.css';
+@import './main.css';
 </style>
 
 <template>
@@ -83,39 +83,52 @@ fetchCityWeatherData(selectedCity.value)
     href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@500&display=swap"
     rel="stylesheet"
   />
-  <div class="search-container">
-    <div class="city-search">
-      <input
-        placeholder="    City Name"
-        v-model="cityName"
-        id="cityNameInput"
-        @keyup.enter="fetchCityWeatherData(cityName)"
-      />
-      <button
-        class="search-button"
-        @click="fetchCityWeatherData(cityName)"
-        :disabled="cityWeatherData == null"
-      >
-        Search
-      </button>
-    </div>
-    <div v-if="similarCityNames.length" class="dropdown">
-      <ul class="city-list">
-        <li
-          class="city-element"
-          v-for="city in similarCityNames"
-          :key="city"
-          :value="city"
-          @click="fetchSelectedCityWeatherData"
+  
+  <div class="main">
+    <div class="search-container">
+      <div class="city-search">
+        <input
+          placeholder="    City Name"
+          v-model="cityName"
+          id="cityNameInput"
+          @keyup.enter="fetchCityWeatherData(cityName)"
+        />
+        <button
+          class="search-button"
+          @click="fetchCityWeatherData(cityName)"
+          :disabled="cityWeatherData == null"
         >
-          {{ city }}
-        </li>
-      </ul>
+          Search
+        </button>
+      </div>
+      <div v-if="similarCityNames.length" class="dropdown">
+        <ul class="city-list">
+          <li
+            class="city-element"
+            v-for="city in similarCityNames"
+            :key="city"
+            :value="city"
+            @click="fetchSelectedCityWeatherData"
+          >
+            {{ city }}
+          </li>
+        </ul>
+      </div>
     </div>
+    <div class="weather-container" v-if="cityWeatherData">
+      <weatherIcon/>
+      <div class="weather-main">
+        <h1>{{ cityWeatherData.name }}</h1>
+        <h1>{{ cityWeatherData.cityweather.temp }}°C</h1>
+        <p>
+          {{ cityWeatherData.cityweather.temp_min }}°C /
+          {{ cityWeatherData.cityweather.temp_max }}°C
+        </p>
+        <p>Feels like: {{ cityWeatherData.cityweather.feels_like }}°C</p>
+      </div>
+      <WeatherAdditionalData :weatherData="cityWeatherData"/>
+    </div>
+    <p v-else-if="isLoading" class="loading-spinner"></p>
   </div>
-  <div class="weather-container" v-if="cityWeatherData">
-    <weatherIcon/>
-    <span>{{ cityWeatherData }}</span>
-  </div>
-  <p v-else-if="isLoading" class="loading-spinner"></p>
+
 </template>
