@@ -35,7 +35,8 @@ services:
       - HOST=0.0.0.0
       - CHOKIDAR_USEPOLLING=true
     volumes:
-      - "./frontend/src/:/app/src"
+      - "./frontend/:/app/:delegated"
+      - "/app/node_modules"
     depends_on:
       - django
 

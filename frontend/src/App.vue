@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, defineAsyncComponent } from 'vue'
+import { ref, onMounted, defineAsyncComponent, shallowRef } from 'vue'
 import { onKeyStroke } from '@vueuse/core'
 
 import WeatherConditions from './utils/WeatherIcons.vue'
@@ -8,10 +8,12 @@ import WeatherAdditionalData from './components/WeatherAdditionalData.vue';
 
 const cityName = ref('')
 const cityWeatherData = ref('')
-const isLoading = ref(false)
 const similarCityNames = ref([])
 const selectedCity = ref('')
-const weatherIcon = ref('')
+const weatherIcon = shallowRef('')
+
+const isLoading = ref(false)
+const showNotification = ref(false)
 
 let debounceTimer = null
 
@@ -22,6 +24,11 @@ onKeyStroke('Enter', () => {
 function getWeatherIconPath(weatherCode) {
   const weatherIconFile = WeatherConditions[weatherCode].iconFile
   return defineAsyncComponent(weatherIconFile)
+}
+
+const closeNotification = () => {
+  showNotification.value = false;
+  localStorage.setItem('notificationClose', 'true');
 }
 
 async function fetchSimilarCityNames() {
@@ -65,6 +72,9 @@ async function fetchCityWeatherData() {
 onMounted(() => {
   const inputField = document.getElementById('cityNameInput')
   inputField.addEventListener('input', fetchSimilarCityNames)
+  if (!localStorage.getItem('notificationClose')) {
+    showNotification.value = true
+  }
 })
 
 function fetchSelectedCityWeatherData() {
@@ -83,7 +93,15 @@ function fetchSelectedCityWeatherData() {
     href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@500&display=swap"
     rel="stylesheet"
   />
-  
+  <div v-if="showNotification" class="overlay"></div>
+  <div v-if="showNotification" class="notification">
+    <p>
+      Welcome to my first application made with Vue3.  
+    </p> 
+    <p>If you have any suggestions or feedback for this app, you can contact me through my socials.</p>
+    <p>Also if you like this simple app, please consider leaving a star on the github page 😉</p>
+    <ion-icon name="close-circle-sharp" @click="closeNotification"></ion-icon>
+  </div>
   <div class="main">
     <div class="search-container">
       <div class="city-search">
@@ -116,19 +134,29 @@ function fetchSelectedCityWeatherData() {
       </div>
     </div>
     <div class="weather-container" v-if="cityWeatherData">
-      <weatherIcon/>
+      <weatherIcon id="weatherIcon"/>
       <div class="weather-main">
         <h1>{{ cityWeatherData.name }}</h1>
-        <h1>{{ cityWeatherData.cityweather.temp }}°C</h1>
+        <h1>{{ Math.round(cityWeatherData.cityweather.temp) }}°C</h1>
         <p>
-          {{ cityWeatherData.cityweather.temp_min }}°C /
-          {{ cityWeatherData.cityweather.temp_max }}°C
+          {{ Math.floor(cityWeatherData.cityweather.temp_min) }}°C /
+          {{ Math.ceil(cityWeatherData.cityweather.temp_max) }}°C
         </p>
-        <p>Feels like: {{ cityWeatherData.cityweather.feels_like }}°C</p>
+        <p>Feels like: {{ Math.round(cityWeatherData.cityweather.feels_like) }}°C</p>
       </div>
       <WeatherAdditionalData :weatherData="cityWeatherData"/>
     </div>
     <p v-else-if="isLoading" class="loading-spinner"></p>
   </div>
-
+  <footer>
+      <h3>Made by Shebeli</h3>
+      <h2>
+        Made with:
+      </h2>
+      <span>
+        <ion-icon name="logo-python"></ion-icon>
+        <ion-icon name="logo-vue"></ion-icon>
+        <ion-icon name="logo-css3"></ion-icon>
+      </span>
+    </footer>
 </template>

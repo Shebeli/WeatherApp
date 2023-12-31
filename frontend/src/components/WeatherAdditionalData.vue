@@ -11,12 +11,12 @@ const props = defineProps({
       UV Index: {{ weatherData.cityweather.uv_index }}
     </p>
     <p id="Humidity">
-      <ion-icon name="water-outline"></ion-icon>
+      <ion-icon id='HumidityIcon' name="water-outline"></ion-icon>
       Humidity: {{ weatherData.cityweather.humidity }}%
     </p>
     <p id="Windspeed" >
-      <ion-icon id="HumidityIcon" name="shuffle-outline"></ion-icon>
-      Wind speed: {{ weatherData.citywind.wind_speed }}
+      <ion-icon id="WindIcon" name="shuffle-outline"></ion-icon>
+      Wind: {{ weatherData.citywind.wind_speed }}m/s
     </p>
   </div>
 </template>
@@ -31,7 +31,6 @@ const props = defineProps({
 #UVIcon {
   position: relative;
   color: rgb(125, 35, 125);
-  font-size: 17px;
 }
 
 #Humidity {
@@ -42,19 +41,25 @@ const props = defineProps({
 }
 
 #HumidityIcon {
-  font-size: 17px;
-  color: aquamarine;
+  color: #1ca3ec;
 }
 
 #Windspeed {
   position:absolute;
   bottom: 0%;
-  left: 65%;
+  left: 68%;
+  font-size: 17px;
 }
 
+#WindIcon {
+  color: aquamarine;
+}
 .weather-additional {
-  margin-top: 20px;
+  position: relative;
+  min-width: 300px;
+  min-height: 35px;
+  margin-top: 10px;
   border: 2rem red;
-  background-color: rgb(44, 44, 44);
+  /* background-color: rgb(44, 44, 44); */
 }
 </style>
