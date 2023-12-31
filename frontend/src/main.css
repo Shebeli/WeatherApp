@@ -3,12 +3,16 @@
   font-weight: 300;
 }
 .loading-spinner {
+  position: fixed;
+  left: 40%;
+  top: 250px;
   border: 4.5px solid rgb(85, 143, 4);
   border-left-color: #32a164;
   border-radius: 50%;
   width: 50px;
   height: 50px;
   animation: spin 1s linear infinite;
+  z-index: 1;
 }
 
 .main{
@@ -158,17 +162,7 @@
   z-index: 99;
 }
 
-footer {
-  position: fixed;
-  background-color: #111010;
-  bottom: 0;
-  /* right: 50%; */
-  width: 100%;
-  text-align: center;
-  height: 100px;
-  margin-top: 15px;
-  color: white;
-}
+
 
 #cityNameInput {
   padding: 4px 5px;
@@ -199,7 +193,7 @@ footer {
   position: absolute;
   height: 180px;
   width: 180px;
-  bottom: 20%;
+  top: 0;
   left: 60%;
 }
 
@@ -216,4 +210,40 @@ footer {
 footer span {
   font-size: 28px;
   color: white;
+}
+
+#socials {
+  position: absolute;
+  right: 5%;
+  color: white;
+  /* background-color: white; */
+}
+
+#socials a {
+  color: white;
+  margin: 0 2px;
+}
+
+#socials:hover {
+  color: white;
+}
+
+.city-not-found  {
+  position: relative;
+  /* left: 25px; */
+  background-color: #0f1041;
+  border-radius: 12px;
+  border: 10px solid #1e065b;
+  padding: 20px;
+  margin: 10px 10px;
+  /* left: 50%; */
+  bottom: 10%;
+  min-width: 500px;
+  height: 200px;
+  text-align: center;
+}
+
+.city-not-found h2{
+  font-weight: 700;
+  color: grey;
 }
