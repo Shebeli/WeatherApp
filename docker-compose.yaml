@@ -5,7 +5,8 @@ services:
       - "8000:8000"
     environment:
       OWM_API_KEY: ${OWM_API_KEY}
-      DEBUG: ${DEBUG}
+      DEBUG: ${DJANGO_DEBUG}
+      SECRET_KEY: ${DJANGO_SECRET_KEY}
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -30,7 +31,7 @@ services:
   vue:
     build: ./frontend/
     ports:
-      - "5173:5173"
+      - "8080:80"
     environment:
       - HOST=0.0.0.0
       - CHOKIDAR_USEPOLLING=true

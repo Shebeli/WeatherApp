@@ -35,6 +35,9 @@ async function fetchSimilarCityNames() {
   clearTimeout(debounceTimer)
   let responseData = []
   similarCityNames.value = []
+  if (!(/[a-zA-Z]/.test(selectedCityName.value))) {
+    return
+  }
   debounceTimer = setTimeout(async () => {
     try {
       const response = await fetch(
@@ -51,36 +54,33 @@ async function fetchSimilarCityNames() {
     responseData.forEach((cityName) => {
       similarCityNames.value.push(cityName['name'])
     })
-  }, 600)
+  }, 500)
 }
 
-
 async function fetchCityWeatherData() {
-  isLoading.value = true;
-  cityWeatherData.value = null;
+  isLoading.value = true
+  cityWeatherData.value = null
   const response = await fetch(
-      `http://127.0.0.1:8000/api/current-weather?city=${selectedCityName.value}`
-    );
-  if (response.status == 200) {   
-    cityWeatherData.value = await response.json();  
-    const iconFile = getWeatherIconPath(cityWeatherData.value.cityweathercondition.icon);
-    weatherIcon.value = iconFile;
-  }
-  else if (response.status == 404) {
-    cityWeatherData.value = 404;
-  }
-  else {
+    `http://127.0.0.1:8000/api/current-weather?city=${selectedCityName.value}`
+  )
+  if (response.status == 200) {
+    cityWeatherData.value = await response.json()
+    const iconFile = getWeatherIconPath(cityWeatherData.value.cityweathercondition.icon)
+    weatherIcon.value = iconFile
+  } else if (response.status == 404) {
+    cityWeatherData.value = 404
+  } else {
     console.error(response)
   }
-  isLoading.value = false;
-  similarCityNames.value = '';
+  isLoading.value = false
+  similarCityNames.value = ''
 }
 
 onMounted(() => {
-  const inputField = document.getElementById('cityNameInput');
-  inputField.addEventListener('input', fetchSimilarCityNames);
+  const inputField = document.getElementById('cityNameInput')
+  inputField.addEventListener('input', fetchSimilarCityNames)
   if (!localStorage.getItem('notificationClose')) {
-    showNotification.value = true;
+    showNotification.value = true
   }
 })
 
@@ -136,9 +136,9 @@ function fetchSelectedCityWeatherData(city) {
         </ul>
       </div>
     </div>
-    <div class="city-not-found" v-if="cityWeatherData == '404'">
+    <div class="city-not-found" v-if="cityWeatherData == 404">
       <h2>Given city name was not found!</h2>
-      <IconNotFound/>
+      <IconNotFound />
     </div>
     <div class="weather-container" v-else-if="cityWeatherData">
       <weatherIcon id="weatherIcon" />
@@ -150,6 +150,12 @@ function fetchSelectedCityWeatherData(city) {
           {{ Math.ceil(cityWeatherData.cityweather.temp_max) }}°C
         </p>
         <p>Feels like: {{ Math.round(cityWeatherData.cityweather.feels_like) }}°C</p>
+        <p>
+          {{
+            cityWeatherData.cityweathercondition.description.charAt(0).toUpperCase() +
+            cityWeatherData.cityweathercondition.description.slice(1)
+          }}
+        </p>
       </div>
       <WeatherAdditionalData :weatherData="cityWeatherData" />
     </div>

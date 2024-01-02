@@ -1,13 +1,27 @@
-FROM node:21.4.0
+# build stage
+FROM node:21.4.0 as build-stage
 
 WORKDIR /app
 
 COPY package.json package-lock.json /app/
 
-RUN npm cache clean --force
-RUN rm -rf node_modules
 RUN npm install
 
 COPY . /app/
 
-CMD ["npm", "run", "dev"]
+RUN npm run build
+
+
+# production stage
+
+FROM nginx:1.13.12-alpine as production-stage
+    
+WORKDIR /usr/share/nginx/html
+
+RUN rm -rf ./*
+
+COPY --from=build-stage /app/dist .
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

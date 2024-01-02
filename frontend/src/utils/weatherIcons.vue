@@ -8,11 +8,11 @@ const weatherConditionIconIds = {
     iconFile: () => import('@/components/icons/weather/IconRain.vue'),
     weatherTypes: 'Drizzle, Rain'
   },
-  '010d': {
+  '10d': {
     iconFile: () => import('@/components/icons/weather/IconFewCloudsRainDay.vue'),
     weatherTypes: "Rain"
   },
-  '010n': {
+  '10n': {
     iconFile: () => import('@/components/icons/weather/IconFewCloudsRainNight.vue'),
     weatherTypes: "Rain"
   },
